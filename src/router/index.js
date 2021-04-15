@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PageNotFound from '../views/PageNotFound.vue'
-import Variable from '../views/Variable.vue'
+// import Variable from '../views/Variable.vue'
 import VariableDynamic from '../views/VariableDynamic.vue'
 import Login from '../components/Login.vue'
 import Signup from '../components/Signup.vue'
@@ -20,11 +20,11 @@ const routes = [{
         name: 'pageNotFound',
         component: PageNotFound
     },
-    {
-        path: '/variable',
-        name: 'Variable',
-        component: Variable
-    },
+    // {
+    //     path: '/variable',
+    //     name: 'Variable',
+    //     component: Variable
+    // },
     {
         path: '/variable-dynamic',
         name: 'VariableDynamic',

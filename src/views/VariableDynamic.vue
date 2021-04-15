@@ -336,9 +336,10 @@ export default {
 
     deleteProposal(proposalIndex) {
       this.proposalsList.splice(proposalIndex, 1);
+      this.dynamicProposalData.splice(proposalIndex, 1)
       localStorage.setItem(
-        "localStorageProposals",
-        JSON.stringify(this.proposalsList)
+        "dynamicPorposalsList",
+        JSON.stringify(this.dynamicProposalData)
       );
     },
   },
