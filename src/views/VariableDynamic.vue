@@ -172,12 +172,55 @@
               v-for="(variable, variableIndex) in variablesList"
               :key="variableIndex"
             >
-              <button
-                class="btn btn-outline-dark btn-block btn-sm"
-                @click="insertVariables(variableIndex)"
-              >
-                {{ variable.heading }}
-              </button>
+              <div class="btn-group w-100">
+                <button
+                  class="btn btn-outline-dark btn-block btn-sm"
+                  @click="insertVariables(variableIndex)"
+                >
+                  {{ variable.heading }}
+                </button>
+                <button
+                  class="btn btn-primary"
+                  v-b-modal="'edit-variable-modal' + variableIndex"
+                >
+                  <i class="far fa-edit"></i>
+                </button>
+
+                <b-modal
+                  :id="'edit-variable-modal' + variableIndex"
+                  title="Update Variable"
+                  centered
+                >
+                  <div class="update-variable-modal-body">
+                    <textarea
+                      name="updateVariable"
+                      id=""
+                      cols="50"
+                      rows="10"
+                      v-model="variable.textarea"
+                      style="width:100%"
+                    ></textarea>
+                    <button
+                      class="btn btn-outline-primary btn-block"
+                      @click="updateVariables(variableIndex)"
+                    >
+                      Update
+                    </button>
+                  </div>
+                  <template #modal-footer>
+                    <div class="w-100">
+                      <b-button
+                        variant="danger"
+                        size="sm"
+                        class="float-right"
+                        @click="show = false"
+                      >
+                        Close
+                      </b-button>
+                    </div>
+                  </template>
+                </b-modal>
+              </div>
             </div>
           </div>
         </div>
@@ -262,7 +305,7 @@ export default {
     },
 
     updateVariables() {
-      this.getUpdatedProposal()
+      this.getUpdatedProposal();
       localStorage.setItem(
         "localStorageVariables",
         JSON.stringify(this.variablesList)
@@ -284,18 +327,8 @@ export default {
     },
 
     addProposal() {
-      // var proposals = this.newProposal.proposalBody;
       var dynamicProposalList = this.dynamicProposalData;
-      // var text = "";
       dynamicProposalList.push(this.newProposal);
-      // proposals.forEach((proposal) => {
-      //   text = text + proposal.textarea + "\n";
-      // });
-      // this.proposalsList.push({
-      //   heading: this.newProposal.heading,
-      //   text: text,
-      // });
-      // localStorage.setItem('localStorageProposals', JSON.stringify(this.proposalsList))
       this.newProposal = {
         heading: "",
         proposalBody: [{ textarea: "", type: "simple" }],
@@ -311,21 +344,20 @@ export default {
         var text = "";
         var heading = dynamicProposal.heading;
         dynamicProposal.proposalBody.forEach((single) => {
-          if(single.type === 'simple'){
-             text = text + single.textarea + "\n";
-          }else {
-            var variableText = this.variablesList[single.varPath].textarea
-            text = text + variableText + "\n"
+          if (single.type === "simple") {
+            text = text + single.textarea + "\n";
+          } else {
+            var variableText = this.variablesList[single.varPath].textarea;
+            text = text + variableText + "\n";
           }
-         
         });
         proposalsList.push({ heading: heading, text: text });
       });
 
-      localStorage.setItem('dynamicPorposalsList', JSON.stringify(this.dynamicProposalData))
-      // dynamicProposalList.forEach(dynamicProposal => {
-      //   proposalsList.push(dynamicProposal)
-      // });
+      localStorage.setItem(
+        "dynamicPorposalsList",
+        JSON.stringify(this.dynamicProposalData)
+      );
     },
 
     copyProposal(proposalIndex) {
@@ -336,7 +368,7 @@ export default {
 
     deleteProposal(proposalIndex) {
       this.proposalsList.splice(proposalIndex, 1);
-      this.dynamicProposalData.splice(proposalIndex, 1)
+      this.dynamicProposalData.splice(proposalIndex, 1);
       localStorage.setItem(
         "dynamicPorposalsList",
         JSON.stringify(this.dynamicProposalData)
@@ -353,7 +385,7 @@ export default {
     }
     if (localStorage.dynamicPorposalsList) {
       this.dynamicProposalData = JSON.parse(localStorage.dynamicPorposalsList);
-      this.getUpdatedProposal()
+      this.getUpdatedProposal();
     }
   },
 };
